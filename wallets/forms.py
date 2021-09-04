@@ -8,8 +8,8 @@ from .models import hexadecimal_address_exists
 class WalletForm(ModelForm):
     class Meta:
         model = Wallet
-        fields = ['address']
-        labels = {'address': 'Dirección'}
+        fields = ['address', 'alias']
+        labels = {'address': 'Dirección', 'alias': 'Alías'}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,6 +18,12 @@ class WalletForm(ModelForm):
             'class': 'form-control',
             'id': 'address',
             'placeholder': 'Address'
+        })
+
+        self.fields['alias'].widget.attrs.update({
+            'class': 'form-control',
+            'id': 'alias',
+            'placeholder': 'Alías'
         })
 
     def clean_address(self):

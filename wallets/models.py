@@ -9,6 +9,7 @@ class Wallet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hexadecimal = models.CharField(max_length=254, null=False, blank=False)
     address = models.CharField(max_length=254, null=False, blank=False)
+    alias = models.CharField(max_length=100, null=False, blank=False, default='')
     created_at = models.DateTimeField(auto_now_add=True)
 
 

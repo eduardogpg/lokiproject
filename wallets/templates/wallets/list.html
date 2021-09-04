@@ -11,8 +11,8 @@
         <table class="table">
             <thead>
                 <tr>
+                  <th>Alías</th>
                   <th>Address</th>
-                  <th>Hexadecimal</th>
                   <th>Transactions</th>
                   <th>Status</th>
                   <th></th>
@@ -21,7 +21,7 @@
             <tbody>
                 {% for wallet in object_list %}
                 <tr>
-                    <td>{{ wallet.address }}</td>
+                    <td>{{ wallet.alias }}</td>
                     <td>{{ wallet.hexadecimal }}</td>
                     <td>0</td>
                     <td>Active</td>
@@ -30,7 +30,6 @@
                             {% csrf_token %}
                             <input type="submit" value="Eliminar" class="btn btn-danger">
                         </form>
-                        
                     </td>
                   </tr>
                 {% endfor %}
