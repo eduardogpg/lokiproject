@@ -88,7 +88,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dukeproject',
-        'USER': 'root',
+        'USER': MYSQL_USER,
         'PASSWORD': MYSQL_PASSWORD,
         'HOST': 'localhost',
     }
