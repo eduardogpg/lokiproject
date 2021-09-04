@@ -1,0 +1,8 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+  <h2>Login</h2>
+  {% include 'base/form.html' with message='login' %}
+  <hr>
+  <a href="{% url 'register' %}">Crear una nueva cuenta</a>
+{% endblock %}

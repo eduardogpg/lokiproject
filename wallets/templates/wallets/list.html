@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-10">
+        <h1>Mis wallets</h1>
+        <br>
+        <a href="{% url 'wallets:create' %}">Añadir nueva wallet</a>
+        <hr>
+        <h4>Mi listado de wallets</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th>Address</th>
+                  <th>Hexadecimal</th>
+                  <th>Transactions</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for wallet in object_list %}
+                <tr>
+                    <td>{{ wallet.address }}</td>
+                    <td>{{ wallet.hexadecimal }}</td>
+                    <td>0</td>
+                    <td>Active</td>
+                    <td>
+                        <form method="post" action="{% url 'wallets:delete' wallet.pk %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Eliminar" class="btn btn-danger">
+                        </form>
+                        
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-2">
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+{% endblock %}
