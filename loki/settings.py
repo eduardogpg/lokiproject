@@ -13,9 +13,9 @@ from decouple import config
 
 from pathlib import Path
 
-from .local_settings import DEBUG
-from .local_settings import MYSQL_USER
-from .local_settings import MYSQL_PASSWORD
+from local_settings import DEBUG
+from local_settings import MYSQL_USER
+from local_settings import MYSQL_PASSWORD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
