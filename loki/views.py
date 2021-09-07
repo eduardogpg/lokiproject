@@ -18,8 +18,6 @@ def login(request):
     if request.method == 'POST' and form.is_valid():
         user = User.objects.filter(username=form.data['username']).first()
         
-        print(user)
-        
         if user and authenticate(username=user.username, password=form.data['password']):
             django_login(request, user)
             

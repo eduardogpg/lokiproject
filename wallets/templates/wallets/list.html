@@ -27,10 +27,15 @@
                     <td>0</td>
                     <td>Active</td>
                     <td>
-                        <form method="post" action="{% url 'wallets:delete' wallet.pk %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Eliminar" class="btn btn-danger">
-                        </form>
+                        <div class="inline-block">
+                            <form method="post" action="{% url 'wallets:delete' wallet.pk %}">
+                                {% csrf_token %}
+                                <input type="submit" value="Eliminar" class="btn btn-danger">
+                            </form>
+                        </div>
+                        <div>
+                            <a href="{% url  'wallets:update' wallet.id %}" class="btn btn-warning">Editar</a>
+                        </div>
                     </td>
                   </tr>
                 {% endfor %}

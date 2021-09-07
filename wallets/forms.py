@@ -1,15 +1,20 @@
 import re
 from django.forms import ModelForm
+from django.forms import CheckboxSelectMultiple
+from django.forms import ModelMultipleChoiceField
+
 from django.core.exceptions import ValidationError
 
 from .models import Wallet
 from .models import hexadecimal_address_exists
 
+from tokens.models import Token
+
 class WalletForm(ModelForm):
     class Meta:
         model = Wallet
-        fields = ['address', 'alias']
-        labels = {'address': 'Dirección', 'alias': 'Alías'}
+        fields = ['address', 'alias', 'tokens']
+        labels = {'address': 'Dirección', 'alias': 'Alías', 'tokens': 'Tokens'}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -25,6 +30,11 @@ class WalletForm(ModelForm):
             'id': 'alias',
             'placeholder': 'Alías'
         })
+
+    tokens = ModelMultipleChoiceField(
+        queryset=Token.objects.filter(active=True),
+        widget=CheckboxSelectMultiple
+    )
 
     def clean_address(self):
         address = self.cleaned_data['address']

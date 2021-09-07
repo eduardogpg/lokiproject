@@ -5,6 +5,7 @@ from django.shortcuts import reverse
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
+from django.views.generic.edit import UpdateView
 
 from django.http import HttpResponseRedirect
 
@@ -39,6 +40,12 @@ class CreateWalletView(LoginRequiredMixin, CreateView):
         return reverse('wallets:list')
 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        return context
+
+        
     def form_valid(self, form):
         self.object = form.save(commit=False)
         
@@ -52,3 +59,12 @@ class WalletDeleteView(DeleteView):
     model = Wallet
     success_url = reverse_lazy('wallets:list')
     
+
+class WalletUpdateView(LoginRequiredMixin, UpdateView):
+    model = Wallet
+    template_name = 'wallets/update.html'
+    login_url = '/login/'
+    form_class = WalletForm
+
+    def get_success_url(self):
+        return reverse('wallets:list')

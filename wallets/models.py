@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from tokens.models import Token
 
 from django.core.exceptions import ValidationError
 
@@ -11,7 +12,7 @@ class Wallet(models.Model):
     address = models.CharField(max_length=254, null=False, blank=False)
     alias = models.CharField(max_length=100, null=False, blank=False, default='')
     created_at = models.DateTimeField(auto_now_add=True)
-
+    tokens = models.ManyToManyField(Token)
 
 def hexadecimal_format(address):
     return address.lower()[2:]
