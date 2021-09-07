@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h3>Listado de tokens</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <a href="{% url 'tokens:create' %}">Crear nuevo token</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">address</th>
+                <th scope="col">Símbolo</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for token in object_list %}
+                    <tr>
+                        <td>{{ token.name }}</td>
+                        <td>{{ token.address }}</td>
+                        <td>{{ token.symbol }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock %}

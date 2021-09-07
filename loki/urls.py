@@ -17,5 +17,7 @@ urlpatterns = [
     path('logout', logout, name='logout'),
 
     path('wallets/', include('wallets.urls')),
+    path('tokens/', include('tokens.urls')),
+
 ]
 
