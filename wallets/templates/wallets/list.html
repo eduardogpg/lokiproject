@@ -5,10 +5,12 @@
     <div class="col-10">
         <h1>Mis wallets</h1>
         <br>
-        <a href="{% url 'wallets:create' %}">Añadir nueva wallet</a>
+        <a href="{% url 'wallets:create' %}" class="btn btn-primary">Añadir nueva wallet</a>
+        <div>
+            <small class="text-muted">Todos los depositos realizados a las billeteras registradas te serán notificados vía correo electronico.</small>
+        </div>
         <hr>
         <h4>Mi listado de wallets</h4>
-        <small class="text-muted">Todos los depositos realizados a las billeteras registradas te serán notificados vía correo electronico.</small>
         <table class="table">
             <thead>
                 <tr>
@@ -27,15 +29,11 @@
                     <td>0</td>
                     <td>Active</td>
                     <td>
-                        <div class="d-inline p-2 ">
-                            <form method="post" action="{% url 'wallets:delete' wallet.pk %}">
-                                {% csrf_token %}
-                                <input type="submit" value="Eliminar" class="btn btn-danger">
-                            </form>
-                        </div>
-                        <div class="d-inline  p-2 ">
-                            <a href="{% url  'wallets:update' wallet.id %}" class="btn btn-warning">Editar</a>
-                        </div>
+                        <form method="post" action="{% url 'wallets:delete' wallet.pk %}" class="d-inline ">
+                            {% csrf_token %}
+                            <input type="submit" value="Eliminar" class="btn btn-danger">
+                        </form>
+                        <a href="{% url  'wallets:update' wallet.id %}" class="btn btn-warning">Editar</a>
                     </td>
                   </tr>
                 {% endfor %}

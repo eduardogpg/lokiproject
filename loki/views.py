@@ -53,4 +53,7 @@ def register(request):
 
 
 def index(request):
+    if request.user.is_authenticated:
+        return redirect('wallets:list')
+        
     return render(request, 'index.html', {})

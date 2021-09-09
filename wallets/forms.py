@@ -1,4 +1,7 @@
 import re
+
+from django.forms import Select
+
 from django.forms import ModelForm
 from django.forms import CheckboxSelectMultiple
 from django.forms import ModelMultipleChoiceField
@@ -16,6 +19,13 @@ class WalletForm(ModelForm):
         fields = ['address', 'alias', 'tokens']
         labels = {'address': 'Dirección', 'alias': 'Alías', 'tokens': 'Tokens'}
 
+    tokens = ModelMultipleChoiceField(
+        queryset=Token.objects.filter(active=True),
+        widget=Select(
+            attrs={'class':'form-check-input'}
+        )
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -31,10 +41,6 @@ class WalletForm(ModelForm):
             'placeholder': 'Alías'
         })
 
-    tokens = ModelMultipleChoiceField(
-        queryset=Token.objects.filter(active=True),
-        widget=CheckboxSelectMultiple
-    )
 
     def clean_address(self):
         address = self.cleaned_data['address']
