@@ -11,7 +11,6 @@ from .forms import RegisterForm
 
 from users.models import User
 
-
 def login(request):
     form = LoginForm(request.POST or None)
 
