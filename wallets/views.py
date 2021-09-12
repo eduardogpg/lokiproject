@@ -42,7 +42,6 @@ class CreateWalletView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
         return context
 
         
@@ -51,6 +50,13 @@ class CreateWalletView(LoginRequiredMixin, CreateView):
         
         self.object.user = self.request.user
         self.object.save()
+
+        print('Nos encontramos aquí!!!!!!!')
+        print('Nos encontramos aquí!!!!!!!')
+        print('Nos encontramos aquí!!!!!!!')
+        print('Nos encontramos aquí!!!!!!!')
+        print('Nos encontramos aquí!!!!!!!')
+        print('Nos encontramos aquí!!!!!!!')
 
         return HttpResponseRedirect(self.get_success_url())
 
