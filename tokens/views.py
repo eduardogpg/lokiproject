@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 from tokens.models import Token
 
@@ -34,12 +35,12 @@ class ListTokenView(LoginRequiredMixin, ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CreateTokenForm(LoginRequiredMixin, CreateView):
+class CreateTokenForm(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Token
     template_name = 'tokens/create.html'
     login_url = '/login/'
     form_class = TokenForm
-
+    success_message = 'Wallet registrado existosamente'
 
     def get_success_url(self):
         return reverse('tokens:list')

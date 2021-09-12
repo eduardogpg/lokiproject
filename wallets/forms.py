@@ -21,7 +21,7 @@ class WalletForm(ModelForm):
 
     tokens = ModelMultipleChoiceField(
         queryset=Token.objects.filter(active=True),
-        widget=Select(
+        widget=CheckboxSelectMultiple(
             attrs={'class':'form-check-input'}
         )
     )
