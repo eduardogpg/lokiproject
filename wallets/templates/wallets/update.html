@@ -1,8 +1,22 @@
 {% extends 'base/base.html' %}
 {% block content %}
-<div class="row"> 
-  <div class="col-10">
-    <h2>Actualizar Wallet</h2>
-    {% include 'base/form.html' with  message='Editar wallet' %}
-</div>
+  <div class="row"> 
+    <div class="col-10">
+        <h2>Actualizar wallet</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+        {% include 'wallets/snippets/form.html' with message='Actualizar billetera' %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <a href="{% url 'wallets:list' %}" class="">Regresar</a>
+    </div>
+  </div>
+  
+
 {% endblock %}
