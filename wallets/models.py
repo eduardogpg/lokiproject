@@ -24,8 +24,7 @@ def hexadecimal_address_exists(hexadecimal):
 
 
 def set_wallet_format(sender, instance, *args, **kwargs):
-    instance.hexadecimal = instance.address
-    instance.address = hexadecimal_format(instance.address)
+    instance.hexadecimal = hexadecimal_format(instance.address)
 
 
 def validate_if_address_exists(sender, instance, *agrs, **kwargs):
