@@ -12,6 +12,7 @@ class Transaction(models.Model):
     sender = models.CharField(max_length=255, null=False, blank=False)
     token = models.ForeignKey(Token, on_delete=models.CASCADE, null=True, blank=True)
     nonce = models.IntegerField(null=False, blank=False)
+    input = models.CharField(max_length=255, null=False, blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
