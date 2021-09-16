@@ -8,6 +8,9 @@ from .views import login
 from .views import register
 from .views import logout
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
@@ -19,5 +22,5 @@ urlpatterns = [
     path('wallets/', include('wallets.urls')),
     path('tokens/', include('tokens.urls')),
 
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
