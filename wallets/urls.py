@@ -5,7 +5,11 @@ from . import views
 app_name = 'wallets'
 
 urlpatterns = [
+    path('dahsboard', views.dashboard, name='dahsboard'),
+    
     path('', views.ListWalletView.as_view(), name='list'),
+    
+
     path('create/', views.CreateWalletView.as_view(), name='create'),
     path('delete/<int:pk>', views.WalletDeleteView.as_view(), name='delete'),
     path('update/<int:pk>', views.WalletUpdateView.as_view(), name='update'),

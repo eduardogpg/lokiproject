@@ -1,0 +1,31 @@
+<table class="w-full table-auto">
+    <thead>
+    <tr>
+        <th class="border-t px-2 py-2" scope="col">Transacction Hash</th>
+        <th class="border-t px-2 py-2" scope="col">Dirección de envío</th>
+        <th class="border-t px-2 py-2" scope="col">Contrato</th>
+        <th class="border-t px-2 py-2" scope="col">Cantidad</th>
+        <th class="border-t px-2 py-2" scope="col">Estatus</th>
+        <th class="text-center border-t px-2 py-2" scope="col">Fecha de registro</th>
+        <th class="text-center border-t px-2 py-2" scope="col">Ver</th></tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td class="text-center border-t px-2 py-2">{{ transaction.hash }}</td>
+                <td class="text-center border-t px-2 py-2">{{ transaction.sender }}</td>
+                <td class="text-center border-t px-2 py-2">{{ transaction.token.symbol }}</td>
+                <td class="text-center border-t px-2 py-2">{{ transaction.amount }}</td>
+                <td class="text-center border-t px-2 py-2">
+                    <span class="inline-block text-sm py-1 px-3 rounded-full text-white bg-green-500">
+                        {{ transaction.status }}
+                    </span>
+                </td>
+                <td class="text-center border-t px-2 py-2">{{ transaction.created_at }}</td>
+                <td class="text-center border-t px-2 py-2">
+                    <a class="text-indigo-600 hover:underline" href="#">Ver más</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 
 from django.shortcuts import reverse
 from django.shortcuts import redirect
+from django.shortcuts import render
 
 from django.contrib import messages
 
@@ -14,10 +15,29 @@ from django.http import HttpResponseRedirect
 
 from .models import Wallet
 from .forms import WalletForm
+from transactions.models import Transaction
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+
+def dashboard(request):
+    wallet = Wallet.objects.last()
+    transactions = Transaction.objects.filter(wallet_id=wallet.id).select_related('token').order_by('-id')
+
+    context = {
+       'wallet': wallet, 
+       'transactions': transactions[:10],
+       'total': len(transactions),
+       'amount': 100,
+       'successful': (
+           Transaction.objects.filter(wallet_id=wallet.id).filter(status='success').count()
+       ),
+       'errors': 0
+    }
+
+    return render(request, 'wallets/dashboard.html', context)
+
 
 class ListWalletView(LoginRequiredMixin, ListView):
     model = Wallet

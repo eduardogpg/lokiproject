@@ -5,6 +5,8 @@ from tokens.models import Token
 from django.db.models.signals import pre_save
 
 class Transaction(models.Model):
+    hash = models.CharField(max_length=255, null=False, blank=False)
+    block = models.IntegerField()
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
     amount = models.IntegerField(null=False, blank=False, default=0)
     status = models.CharField(max_length=20, null=True, blank=True)
