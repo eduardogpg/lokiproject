@@ -39,9 +39,7 @@ def register(request):
     form = RegisterForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
-
         user = form.save()
-
         if user:
             django_login(request, user)
             messages.success(request, 'Cuenta creada exitosamente.')
