@@ -21,14 +21,14 @@ def login(request):
             django_login(request, user)
             
             messages.success(request, 'Te damos la bienvenida {}'.format(user.username))
-            return redirect('wallets:list')
+            return redirect('wallets:dashboard')
     
     if request.method == 'POST':
         messages.error(request, 'Usuario o contraseña incorrectos')
     
     context = { 'title': 'Login', 'form': form }
-
     return render(request, 'login.html', context)
+
 
 def logout(request):
     django_logout(request)
@@ -43,7 +43,7 @@ def register(request):
         if user:
             django_login(request, user)
             messages.success(request, 'Cuenta creada exitosamente.')
-            return redirect('wallets:list')
+            return redirect('wallets:dashboard')
 
     context = { 'form': form, 'title': 'Registro' }
     return render(request, 'register.html', context)
@@ -51,6 +51,6 @@ def register(request):
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('wallets:list')
+        return redirect('wallets:dashboard')
         
     return render(request, 'index.html', {})

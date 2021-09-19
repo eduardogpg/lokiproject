@@ -21,23 +21,30 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
+@login_required(login_url='/login')
 def dashboard(request):
-    wallet = Wallet.objects.last()
-    transactions = Transaction.objects.filter(wallet_id=wallet.id).select_related('token').order_by('-id')
+    wallet = Wallet.objects.filter(user=request.user).first()
+    
+    if wallet is None:
+        return redirect('wallets:admin')
 
     context = {
-       'wallet': wallet, 
-       'transactions': transactions[:10],
-       'total': len(transactions),
-       'amount': 100,
-       'successful': (
-           Transaction.objects.filter(wallet_id=wallet.id).filter(status='success').count()
-       ),
-       'errors': 0
+        'wallet': wallet, 
+        'transactions': Transaction.objects.filter(wallet_id=wallet.id).select_related('token').order_by('-id'),
+        'total': len(transactions),
+        'amount': 100,
+        'successful': (
+            Transaction.objects.filter(wallet_id=wallet.id).filter(status='success').count()
+        ),
+        'errors': 0
     }
 
     return render(request, 'wallets/dashboard.html', context)
 
+
+@login_required(login_url='/login')
+def admin(request):
+    return render(request, 'wallets/admin.html', {})
 
 class ListWalletView(LoginRequiredMixin, ListView):
     model = Wallet
@@ -52,6 +59,12 @@ class ListWalletView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Wallet.objects.filter(user=self.request.user).order_by('-id')
+
+
+    def dispatch(self, request, *args, **kwargs):
+        return redirect('wallets:dashboard')
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -80,7 +93,6 @@ class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     
 
     def dispatch(self, request, *args, **kwargs):
-        print('dispatch!!!')
         return super().dispatch(request, *args, **kwargs)
 
 class WalletDeleteView(DeleteView):
