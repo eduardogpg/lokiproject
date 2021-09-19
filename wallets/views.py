@@ -27,10 +27,11 @@ def dashboard(request):
     
     if wallet is None:
         return redirect('wallets:admin')
-
+    
+    transactions = Transaction.objects.filter(wallet_id=wallet.id).select_related('token').order_by('-id')
     context = {
         'wallet': wallet, 
-        'transactions': Transaction.objects.filter(wallet_id=wallet.id).select_related('token').order_by('-id'),
+        'transactions': transactions,
         'total': len(transactions),
         'amount': 100,
         'successful': (

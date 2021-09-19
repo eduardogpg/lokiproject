@@ -1,22 +1,43 @@
 {% extends 'base/base.html' %}
+
 {% block content %}
-  <div class="row"> 
-    <div class="col-10">
-        <h2>Crear wallet</h2>
-    </div>
-  </div>
+<div class="container mx-auto px-4"> 
+    
+  {% include 'base/snippets/navbar.html' %}
 
-  <div class="row">
-    <div class="col">
-        {% include 'wallets/snippets/form.html' with message='Crear billetera' %}
+  <section class="py-12 px-4 text-center">
+    <div class="w-full max-w-2xl mx-auto">
+      
+      <h2 class="text-5xl mt-2 mb-6 leading-tight font-semibold font-heading">Nueva Wallet</h2>
+      <span class="text-sm font-semibold">Registra direcciones para la Binance Smart Chain (BEP20)</span>
+      <a class="text-indigo-600 hover:underline" href="https://academy.binance.com/en/glossary/bep-20" target="_blank">Learn more &raquo;</a>
     </div>
-  </div>
+  </section>
 
-  <div class="row">
-    <div class="col">
-      <a href="{% url 'wallets:list' %}" class="">Regresar</a>
-    </div>
-  </div>
-  
+  <form method="POST">
+    {% csrf_token %}
+    {%for field in form %}
+
+    <p></p>
+
+      <div class="mb-6 {%if field.errors %} error {% endif %}">
+        {% if field.field.widget.input_type == 'checkbox' %}
+          <p class="text-gray-400 leading-relaxed">Selecciona las criptomonedas que deseas asociar a tu billetera.</p>
+          <br>
+        {% endif %}
+
+        {{ field }}
+        {% if field.errors %}
+          {{ field.errors }}
+        {% endif %}
+      </div>
+
+    {% endfor %}
+
+    <button class="inline-block w-full py-4 px-8 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow">Registrar billetera</button>
+</form>
+
 
 {% endblock %}
+
+
