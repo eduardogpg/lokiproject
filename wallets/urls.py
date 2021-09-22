@@ -9,6 +9,8 @@ urlpatterns = [
     path('admin', views.admin, name='admin'),
     
     path('', views.ListWalletView.as_view(), name='list'),
+
+    path('api/dashboard/<int:pk>', views.endopoint_dashboard, name='endpoint_dashboard'),
     
     path('create/', views.CreateWalletView.as_view(), name='create'),
     path('delete/<int:pk>', views.WalletDeleteView.as_view(), name='delete'),

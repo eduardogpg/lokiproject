@@ -1,8 +1,17 @@
+import json
+
+from datetime import datetime
+from datetime import timedelta
+
 from django.urls import reverse_lazy
+
+from django.http import JsonResponse
 
 from django.shortcuts import reverse
 from django.shortcuts import redirect
 from django.shortcuts import render
+
+from django.shortcuts import get_object_or_404
 
 from django.contrib import messages
 
@@ -13,6 +22,8 @@ from django.views.generic.edit import UpdateView
 
 from django.http import HttpResponseRedirect
 
+from django.core.serializers import serialize
+
 from .models import Wallet
 from .forms import WalletForm
 from transactions.models import Transaction
@@ -20,6 +31,8 @@ from transactions.models import Transaction
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
+
+from django.db.models import Sum
 
 @login_required(login_url='/login')
 def dashboard(request):
@@ -33,7 +46,7 @@ def dashboard(request):
         'wallet': wallet, 
         'transactions': transactions,
         'total': len(transactions),
-        'amount': sum( transaction['amount'] for transaction in transactions ),
+        'amount': 10,
         'successful': (
             Transaction.objects.filter(wallet_id=wallet.id).filter(status='success').count()
         ),
@@ -41,6 +54,24 @@ def dashboard(request):
     }
 
     return render(request, 'wallets/dashboard.html', context)
+
+
+def endopoint_dashboard(request, pk):
+    wallet = get_object_or_404(Wallet, pk=pk)
+    transactions = wallet.transaction_set.filter(
+        created_at__gte= datetime.now() - timedelta(days=30)
+    ).values('block', 'wallet', 'amount', 'token', 'kind', 'sender', 'created_at')
+
+    return JsonResponse(
+        {
+            'total': wallet.transaction_set.count(),
+            'deposits': wallet.transaction_set.filter(
+                kind='Deposit'
+            ).count(),
+            'balance': wallet.transaction_set.annotate(Sum('amount'))[0].amount__sum,
+            'transactions': list(transactions)
+        }
+    )
 
 
 @login_required(login_url='/login')

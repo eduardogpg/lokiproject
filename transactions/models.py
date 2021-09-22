@@ -10,8 +10,8 @@ class Transaction(models.Model):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE)
     amount = models.IntegerField(null=False, blank=False, default=0)
     status = models.CharField(max_length=20, null=True, blank=True)
-    kind = models.CharField(max_length=20, null=True, blank=True)
-    sender = models.CharField(max_length=255, null=False, blank=False)
+    kind = models.CharField(max_length=20, null=True, blank=True) # ENUM
+    sender = models.CharField(max_length=255, null=False, blank=False) 
     token = models.ForeignKey(Token, on_delete=models.CASCADE, null=True, blank=True)
     nonce = models.IntegerField(null=False, blank=False)
     input = models.CharField(max_length=255, null=False, blank=False)

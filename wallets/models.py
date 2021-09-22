@@ -18,6 +18,7 @@ class Wallet(models.Model):
     def __str__(self):
         return self.hexadecimal
 
+
 def hexadecimal_format(address):
     return address.lower()[2:]
 
