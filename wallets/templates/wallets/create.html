@@ -18,9 +18,7 @@
     {% csrf_token %}
     {%for field in form %}
 
-    <p></p>
-
-      <div class="mb-6 {%if field.errors %} error {% endif %}">
+      <div class="mb-6 {%if field.errors %} <p class='text-red-400 leading-relaxed'>error</p> {% endif %}">
         {% if field.field.widget.input_type == 'checkbox' %}
           <p class="text-gray-400 leading-relaxed">Selecciona las criptomonedas que deseas asociar a tu billetera.</p>
           <br>

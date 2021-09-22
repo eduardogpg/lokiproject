@@ -9,9 +9,11 @@ from django.forms import ModelMultipleChoiceField
 from django.core.exceptions import ValidationError
 
 from .models import Wallet
+from .models import hexadecimal_format
 from .models import hexadecimal_address_exists
 
 from tokens.models import Token
+
 
 class WalletForm(ModelForm):
     class Meta:
@@ -44,13 +46,13 @@ class WalletForm(ModelForm):
 
     def clean_address(self):
         address = self.cleaned_data['address']
-
-        if hexadecimal_address_exists(address):
-            raise ValidationError("Dirección ya se encuentra registrada.")
-
+        
         if self.is_hexadecimal(address) is None:
             raise ValidationError("Dirección no valida.")
-        
+
+        if hexadecimal_address_exists(hexadecimal_format(address)):
+            raise ValidationError("La dirección ya se encuentra registrada.")
+
         return address
 
 

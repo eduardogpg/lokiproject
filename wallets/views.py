@@ -23,7 +23,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 @login_required(login_url='/login')
 def dashboard(request):
-    wallet = Wallet.objects.filter(user=request.user).first()
+    wallet = Wallet.objects.filter(user=request.user).last()
     
     if wallet is None:
         return redirect('wallets:admin')
@@ -33,7 +33,7 @@ def dashboard(request):
         'wallet': wallet, 
         'transactions': transactions,
         'total': len(transactions),
-        'amount': 100,
+        'amount': sum( transaction['amount'] for transaction in transactions ),
         'successful': (
             Transaction.objects.filter(wallet_id=wallet.id).filter(status='success').count()
         ),

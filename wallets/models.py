@@ -15,12 +15,15 @@ class Wallet(models.Model):
     tokens = models.ManyToManyField(Token, through='wallet_tokens.WalletTokens')
 
 
+    def __str__(self):
+        return self.hexadecimal
+
 def hexadecimal_format(address):
     return address.lower()[2:]
 
 
 def hexadecimal_address_exists(hexadecimal):
-    return Wallet.objects.filter(hexadecimal=hexadecimal).exists()
+    return Wallet.objects.filter(hexadecimal=hexadecimal.lower()).exists()
 
 
 def set_wallet_format(sender, instance, *args, **kwargs):
