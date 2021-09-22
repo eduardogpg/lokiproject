@@ -37,7 +37,8 @@ from django.db.models import Sum
 @login_required(login_url='/login')
 def dashboard(request):
     wallet = Wallet.objects.filter(user=request.user).last()
-    
+    wallets = Wallet.objects.filter(user=request.user).values('hexadecimal', 'alias')
+
     if wallet is None:
         return redirect('wallets:admin')
     
@@ -50,7 +51,8 @@ def dashboard(request):
         'successful': (
             Transaction.objects.filter(wallet_id=wallet.id).filter(status='success').count()
         ),
-        'errors': 0
+        'errors': 0,
+        'wallets': wallets
     }
 
     return render(request, 'wallets/dashboard.html', context)
@@ -58,9 +60,10 @@ def dashboard(request):
 
 def endopoint_dashboard(request, pk):
     wallet = get_object_or_404(Wallet, pk=pk)
-    transactions = wallet.transaction_set.filter(
-        created_at__gte= datetime.now() - timedelta(days=30)
-    ).values('block', 'wallet', 'amount', 'token', 'kind', 'sender', 'created_at')
+    
+    transactions = wallet.transaction_set.filter(created_at__gte= datetime.now() - timedelta(days=30)).values(
+        'block', 'wallet', 'amount', 'token', 'kind', 'sender', 'created_at'
+    )
 
     return JsonResponse(
         {
