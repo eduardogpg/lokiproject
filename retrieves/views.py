@@ -19,15 +19,15 @@ from transactions.models import Transaction
 def dashboard(request, pk):
     wallet = get_object_or_404(Wallet, pk=pk)
     
-    transactions = wallet.transaction_set.filter(created_at__gte= datetime.now() - timedelta(days=30)).values(
-        'block', 'wallet', 'amount', 'token', 'kind', 'sender', 'created_at'
+    transactions = wallet.transaction_set.filter(created_at__gte=datetime.now() - timedelta(days=30)).select_related('token').values(
+        'amount', 'block', 'created_at',  'id', 'kind', 'nonce', 'sender', 'status', 'token__symbol'
     )
 
     return JsonResponse(
         {
             'total': wallet.transaction_set.count(),
             'deposits': wallet.transaction_set.filter(kind='Deposit').count(),
-            'balance': wallet.transaction_set.annotate(Sum('amount'))[0].amount__sum,
+            'balance': wallet.transaction_set.aggregate(Sum('amount')),
             'transactions': list(transactions)
         }
     )
