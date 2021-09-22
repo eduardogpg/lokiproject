@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('wallets/', include('wallets.urls')),
     path('tokens/', include('tokens.urls')),
+    path('retrieves/', include('retrieves.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
