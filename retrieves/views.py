@@ -22,12 +22,13 @@ def dashboard(request, pk):
     transactions = wallet.transaction_set.filter(created_at__gte=datetime.now() - timedelta(days=30)).select_related('token').values(
         'amount', 'block', 'created_at',  'id', 'kind', 'nonce', 'sender', 'status', 'token__symbol'
     )
+    balance = wallet.transaction_set.aggregate(Sum('amount'))
 
     return JsonResponse(
         {
             'total': wallet.transaction_set.count(),
             'deposits': wallet.transaction_set.filter(kind='Deposit').count(),
-            'balance': wallet.transaction_set.aggregate(Sum('amount')),
+            'balance': balance['amount__sum'] if balance['amount__sum'] else 0,
             'transactions': list(transactions)
         }
     )

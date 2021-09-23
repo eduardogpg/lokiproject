@@ -56,7 +56,7 @@ class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Wallet eactualizada exitosamente"
 
     def get_success_url(self):
-        return reverse('wallets:list')
+        return reverse('wallets:dashboard')
 
 
     def get_context_data(self, **kwargs):
@@ -65,7 +65,6 @@ class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
     def post(self, request, *args, **kwargs):
-        print('Entramos aquí al post')
         return super(CreateWalletView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):

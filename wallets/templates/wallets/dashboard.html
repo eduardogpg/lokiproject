@@ -125,14 +125,14 @@
         created() {
             axios.get('/retrieves/wallets').then(response => {
                 this.wallets = response.data.wallets;
-                this.loadDashboard(this.walletId[0].id)
+                
             });
         },
 
         methods: {
             onChange(event) {
                 this.reset();
-                 this.loadDashboard(event.target.value)
+                this.loadDashboard(event.target.value)
             },
 
             loadDashboard(walletId) {
@@ -141,7 +141,8 @@
                      
                     this.total = response.data.total;
                     this.count = response.data.count;
-                    this.balance = response.data.balance.amount__sum;
+
+                    this.balance = response.data.balance;
                     this.deposits = response.data.deposits;
 
                     this.transactions = response.data.transactions;
@@ -152,7 +153,7 @@
                 this.transactions = [];
                 this.total = 0;
                 this.deposits = 0;
-                this.balance = 10,
+                this.balance = 0,
                 this.count = 0
             }
         }
