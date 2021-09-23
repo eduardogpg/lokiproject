@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'transactions',
     'tokens',
     'wallet_tokens',
-    'retrieves'
+    'retrieves',
+    'balances'
 ]
 
 MIDDLEWARE = [

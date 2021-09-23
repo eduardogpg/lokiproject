@@ -3,7 +3,13 @@
  
   {% for field in form %}
     <div class="mb-6 {%if field.errors %} {% endif %}">
+      
+      {% if field.field.widget.input_type == 'checkbox' %}
+        {{  field.label_tag  }}
+      {% endif %}
+
       {{ field }}
+      
       {% if field.errors %}
         {{ field.errors }}
       {% endif %}

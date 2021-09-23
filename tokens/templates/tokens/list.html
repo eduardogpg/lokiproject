@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container mx-auto px-4"> 
@@ -10,7 +11,7 @@
       
       <div class="flex flex-wrap -mx-4 -mb-4 md:mb-0">
         <div class="w-full md:w-1/2 px-4 mb-4 md:mb-0">
-            <h2 class="text-3xl mb-2 font-semibold font-heading font-semibold text-left">Listado de tokens</h2>
+            <h2 class="text-3xl mb-2 font-semibold font-heading font-semibold text-left">Listado de tokens {{ token.alias }}</h2>
         </div>
         <div class="w-full md:w-1/2 px-4 mb-4 md:mb-0 text-right">
             <a class="inline-block py-3 px-6 leading-none text-white bg-purple-600 hover:bg-purple-700 font-semibold rounded shadow" href="{% url 'tokens:create' %}">Nuevo token</a>
@@ -21,6 +22,7 @@
         <table class="w-full table-auto">
             <thead>
             <tr>
+                <th class="border-t px-2 py-2" scope="col"></th>
                 <th class="border-t px-2 py-2" scope="col">Address</th>
                 <th class="border-t px-2 py-2" scope="col">Name</th>
                 <th class="border-t px-2 py-2" scope="col">Symbol</th>
@@ -30,10 +32,15 @@
             <tbody>
                 {% for token in object_list %}
                     <tr>
+                        <td class="text-center border-t px-2 py-2">
+                            <img src="{% static 'image/coins/'%}{{token.image}}.webp" width="30" height="30">
+                        </td>
                         <td class="text-center border-t px-2 py-2">{{ token.address }} </td>
                         <td class="text-center border-t px-2 py-2">{{ token.name }}</td>
                         <td class="text-center border-t px-2 py-2">{{ token.symbol }}</td>
-                        <td class="text-center border-t px-2 py-2">{{ token.active }}</td>
+                        <td class="text-center border-t px-2 py-2">
+                            <strong class="{% if token.active %} text-green-600 {% else %} text-red-600 {% endif %}"> {{ token.active }} </strong>
+                        </td>
                         <td class="text-center border-t px-2 py-2">
                             <div >
                                 <a class="inline-block py-3 px-6 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" href="{% url 'tokens:update' token.id  %}">Editar</a>
