@@ -1,38 +1,51 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<div class="row">
-    <div class="col">
-        <h3>Listado de tokens</h3>
-    </div>
-</div>
+<div class="container mx-auto px-4"> 
+    
+  {% include 'base/snippets/navbar.html' %}
 
-<div class="row">
-    <div class="col">
-        <a href="{% url 'tokens:create' %}">Crear nuevo token</a>
+  <section class="py-12">
+    <div class="w-full mx-auto">
+      
+      <div class="flex flex-wrap -mx-4 -mb-4 md:mb-0">
+        <div class="w-full md:w-1/2 px-4 mb-4 md:mb-0">
+            <h2 class="text-3xl mb-2 font-semibold font-heading font-semibold text-left">Listado de tokens</h2>
+        </div>
+        <div class="w-full md:w-1/2 px-4 mb-4 md:mb-0 text-right">
+            <a class="inline-block py-3 px-6 leading-none text-white bg-purple-600 hover:bg-purple-700 font-semibold rounded shadow" href="{% url 'tokens:create' %}">Nuevo token</a>
+        </div>
     </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        <table class="table">
+    <br>
+    <section>
+        <table class="w-full table-auto">
             <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">address</th>
-                <th scope="col">Símbolo</th>
-              </tr>
+            <tr>
+                <th class="border-t px-2 py-2" scope="col">Address</th>
+                <th class="border-t px-2 py-2" scope="col">Name</th>
+                <th class="border-t px-2 py-2" scope="col">Symbol</th>
+                <th class="border-t px-2 py-2" scope="col">Active</th>
+                <th class="border-t px-2 py-2" scope="col"></th>
             </thead>
             <tbody>
                 {% for token in object_list %}
                     <tr>
-                        <td>{{ token.name }}</td>
-                        <td>{{ token.address }}</td>
-                        <td>{{ token.symbol }}</td>
+                        <td class="text-center border-t px-2 py-2">{{ token.address }} </td>
+                        <td class="text-center border-t px-2 py-2">{{ token.name }}</td>
+                        <td class="text-center border-t px-2 py-2">{{ token.symbol }}</td>
+                        <td class="text-center border-t px-2 py-2">{{ token.active }}</td>
+                        <td class="text-center border-t px-2 py-2">
+                            <div >
+                                <a class="inline-block py-3 px-6 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" href="{% url 'tokens:update' token.id  %}">Editar</a>
+                                <a class="inline-block py-3 px-6 leading-none text-white bg-green-600 hover:bg-green-700 font-semibold rounded shadow" href="{% url 'tokens:update' token.id  %}">Ver</a>
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
-          </table>
-    </div>
-</div>
+        </table>
+    </section>
+
+  </section>
+
 {% endblock %}

@@ -7,4 +7,5 @@ app_name = 'tokens'
 urlpatterns = [
     path('', views.ListTokenView.as_view(), name='list'),
     path('create', views.CreateTokenForm.as_view(), name='create'),
+    path('update/<int:pk>', views.UpdateTokenView.as_view(), name='update'),
 ]

@@ -1,0 +1,13 @@
+<form method="POST">
+  {% csrf_token %}
+ 
+  {% for field in form %}
+    <div class="mb-6 {%if field.errors %} {% endif %}">
+      {{ field }}
+      {% if field.errors %}
+        {{ field.errors }}
+      {% endif %}
+    </div>
+  {% endfor %}
+  <button class="inline-block w-full py-4 px-8 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow">{{ message }}</button>
+</form>

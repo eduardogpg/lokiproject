@@ -4,6 +4,8 @@ from django.shortcuts import reverse
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
+from django.views.generic.edit import UpdateView
+
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -40,7 +42,24 @@ class CreateTokenForm(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'tokens/create.html'
     login_url = '/login/'
     form_class = TokenForm
-    success_message = 'Wallet registrado existosamente'
+    success_message = 'Token registrado existosamente'
+
+    def get_success_url(self):
+        return reverse('tokens:list')
+
+
+    @method_decorator(admin_validator)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
+class UpdateTokenView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Token
+    login_url = '/login/'
+    template_name = 'tokens/update.html'
+    form_class = TokenForm
+    success_message = 'Token actualizado existosamente'
+
 
     def get_success_url(self):
         return reverse('tokens:list')

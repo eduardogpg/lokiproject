@@ -78,22 +78,21 @@
                             <th class="text-center border-t px-2 py-2" scope="col"></th></tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <tr v-for="transaction in transactions">
-                                    <td class="text-center border-t px-2 py-2">{{ transaction.block }} </td>
-                                    <td class="text-center border-t px-2 py-2">{{ transaction.sender }}</td>
-                                    <td class="text-center border-t px-2 py-2">{{ transaction.token__symbol }}</td>
-                                    <td class="text-center border-t px-2 py-2">{{ transaction.amount }}</td>
-                                    <td class="text-center border-t px-2 py-2">
-                                        <span class="inline-block text-sm py-1 px-3 rounded-full text-white bg-green-500">
-                                            {{ transaction.status }}
-                                        </span>
-                                    </td>
-                                    <td class="text-center border-t px-2 py-2">{{ transaction.created_at }}</td>
-                                    <td class="text-center border-t px-2 py-2">
-                                        <a class="text-indigo-600 hover:underline" href="#">Ver más</a>
-                                    </td>
-                                </tr>
+                            <tr v-for="transaction in transactions">
+                                <td class="text-center border-t px-2 py-2">{{ transaction.block }} </td>
+                                <td class="text-center border-t px-2 py-2">{{ transaction.sender }}</td>
+                                <td class="text-center border-t px-2 py-2">{{ transaction.token__symbol }}</td>
+                                <td class="text-center border-t px-2 py-2">{{ transaction.amount }}</td>
+                                <td class="text-center border-t px-2 py-2">
+                                    <span class="inline-block text-sm py-1 px-3 rounded-full text-white bg-green-500">
+                                        {{ transaction.status }}
+                                    </span>
+                                </td>
+                                <td class="text-center border-t px-2 py-2">{{ transaction.created_at }}</td>
+                                <td class="text-center border-t px-2 py-2">
+                                    <a class="text-indigo-600 hover:underline" href="#">Ver más</a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <a v-if="count > 10" class="text-indigo-600 hover:underline" href="#">Ver más</a>

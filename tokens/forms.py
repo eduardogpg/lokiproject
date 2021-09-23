@@ -12,19 +12,24 @@ class TokenForm(ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields['address'].widget.attrs.update({
-            'class': 'form-control',
+            'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
             'id': 'address',
             'placeholder': 'Address'
         })
 
         self.fields['name'].widget.attrs.update({
-            'class': 'form-control',
+            'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
             'id': 'name',
             'placeholder': 'Nombre'
         })
 
         self.fields['symbol'].widget.attrs.update({
-            'class': 'form-control',
+            'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
             'id': 'symbol',
             'placeholder': 'Símbolo'
+        })
+
+        self.fields['active'].widget.attrs.update({
+            'class': '',
+            'id': 'active',
         })
