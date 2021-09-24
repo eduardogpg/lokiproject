@@ -18,7 +18,10 @@ from django.http import HttpResponseRedirect
 from django.core.serializers import serialize
 
 from .models import Wallet
-from .forms import WalletForm
+
+from .forms import WalletCreateForm
+from .forms import WalletUpdateForm
+
 from transactions.models import Transaction
 from wallet_tokens.models import WalletTokens
 
@@ -53,7 +56,7 @@ class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Wallet
     template_name = 'wallets/create.html'
     login_url = '/login/'
-    form_class = WalletForm
+    form_class = WalletCreateForm
     success_message = "Wallet eactualizada exitosamente"
 
     def get_success_url(self):
@@ -86,7 +89,7 @@ class WalletUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Wallet
     template_name = 'wallets/update.html'
     login_url = '/login/'
-    form_class = WalletForm
+    form_class = WalletUpdateForm
     success_message = "Wallet actualizada exitosamente"
 
     def get_success_url(self):
@@ -94,6 +97,6 @@ class WalletUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['tokens'] = [ wt['token_id'] for wt in WalletTokens.objects.filter(wallet_id=self.get_object().id).values('token_id')]
         return context
+
