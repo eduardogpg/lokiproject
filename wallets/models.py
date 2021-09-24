@@ -24,7 +24,8 @@ def hexadecimal_format(address):
 
 
 def hexadecimal_address_exists(hexadecimal):
-    return Wallet.objects.filter(hexadecimal=hexadecimal.lower()).exists()
+    hexadecimal = hexadecimal.lower()
+    return Wallet.objects.filter(hexadecimal=hexadecimal).exclude(hexadecimal=hexadecimal).exists()
 
 
 def set_wallet_format(sender, instance, *args, **kwargs):

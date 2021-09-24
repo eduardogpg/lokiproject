@@ -20,11 +20,11 @@ from django.core.serializers import serialize
 from .models import Wallet
 from .forms import WalletForm
 from transactions.models import Transaction
+from wallet_tokens.models import WalletTokens
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-
 
 
 @login_required(login_url='/login')
@@ -91,3 +91,9 @@ class WalletUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('wallets:dashboard')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['tokens'] = [ wt['token_id'] for wt in WalletTokens.objects.filter(wallet_id=self.get_object().id).values('token_id')]
+        return context

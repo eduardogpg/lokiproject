@@ -4,17 +4,20 @@
       {{ form.address }}
       {{ form.address.errors }}
     </div>
+
     <div class="mb-6">
       {{ form.alias }}
       {{ form.alias.errors }}
     </div>
     <p class="text-gray-400 leading-relaxed">Selecciona las criptomonedas que deseas asociar a tu billetera.</p>
     <br>
+    
     <div class="grid grid-cols-8 gap-4">
       {% for key, value in form.tokens.field.choices %}
         {% include 'wallets/snippets/token.html' with key=key value=value %}
       {% endfor %}
     </div>
+    <p>{{ form.tokens.errors }} </p>
     <br>
     <button class="inline-block w-full py-4 px-8 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow">{{ message }}</button>
 </form>
