@@ -32,6 +32,7 @@ def dashboard(request):
     if Wallet.objects.filter(user=request.user).exists():
 
         return render(request, 'wallets/dashboard.html', {
+            'wallet': Wallet.objects.filter(user=request.user).first(),
             'wallets': Wallet.objects.filter(user=request.user).values('hexadecimal', 'alias', 'id')
         })
 
@@ -89,4 +90,4 @@ class WalletUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = "Wallet actualizada exitosamente"
 
     def get_success_url(self):
-        return reverse('wallets:list')
+        return reverse('wallets:dashboard')

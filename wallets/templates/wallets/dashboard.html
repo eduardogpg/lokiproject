@@ -27,7 +27,9 @@
                 <div class="flex texte-center flex-wrap -mx-4 -mb-4 md:mb-0">
                     <div class="w-full md:w-1/3 px-4 mb-4 md:mb-0"></div>
                     <div class="w-full md:w-1/3 px-4 mb-4 md:mb-0">
-                        <a class="inline-block py-3 px-6 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" href="#">Editar billetera</a>
+                        {% verbatim %}
+                            <a class="inline-block py-3 px-6 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" :href="'/wallets/update/' + currentWalletId" id="update-link">Editar billetera</a>
+                        {% endverbatim %}
                         <a class="inline-block py-3 px-6 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow" href="{% url 'wallets:create' %}">Nueva billetera</a>
                     </div>
                     <div class="w-full md:w-1/3 px-4 mb-4 md:mb-0"></div>
@@ -114,6 +116,7 @@
     var app = new Vue({
         el: '#app',
         data: {
+            currentWalletId: 0,
             wallets: [],
             transactions: [],
             total: 0,
@@ -125,7 +128,6 @@
         created() {
             axios.get('/retrieves/wallets').then(response => {
                 this.wallets = response.data.wallets;
-                
             });
         },
 
@@ -137,8 +139,6 @@
 
             loadDashboard(walletId) {
                 axios.get('/retrieves/dashboard/' + walletId).then(response => {
-                    console.log(response);
-                     
                     this.total = response.data.total;
                     this.count = response.data.count;
 
@@ -146,6 +146,9 @@
                     this.deposits = response.data.deposits;
 
                     this.transactions = response.data.transactions;
+
+                    this.currentWalletId = walletId;
+
                 });
             },
 

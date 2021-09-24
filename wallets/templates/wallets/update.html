@@ -1,22 +1,18 @@
 {% extends 'base/base.html' %}
+
 {% block content %}
-  <div class="row"> 
-    <div class="col-10">
-        <h2>Actualizar wallet</h2>
-    </div>
-  </div>
+<div class="container mx-auto px-4"> 
+    
+  {% include 'base/snippets/navbar.html' %}
 
-  <div class="row">
-    <div class="col">
-        {% include 'wallets/snippets/form.html' with message='Actualizar billetera' %}
+  <section class="py-12 px-4 text-center">
+    <div class="w-full max-w-2xl mx-auto">
+      
+      <h2 class="text-5xl mt-2 mb-6 leading-tight font-semibold font-heading">Editar Wallet</h2>
+      <span class="text-sm font-semibold">{{ object.alias }} - {{ object.address }}</span>
     </div>
-  </div>
+  </section>
 
-  <div class="row">
-    <div class="col">
-      <a href="{% url 'wallets:list' %}" class="">Regresar</a>
-    </div>
-  </div>
-  
+{% include 'wallets/snippets/form.html' with message='Actualizar billetera' %}
 
 {% endblock %}
