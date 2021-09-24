@@ -1,0 +1,12 @@
+{% load static %}
+
+<div class=" rounded overflow-hidden shadow-lg">
+  <div class="px-6 py-4">
+    <div class="font-bold text-xl mb-2">
+      <img class="w-8 mt-2" src="{% static 'image/coins/'%}{{value}}.webp">
+        <label for="id_tokens_{{ key }}"><input type="checkbox" name="tokens" value="{{ key }}" class="ml-1" id="id_tokens_{{ key }}">
+          {{ value }}
+        </label>
+    </div>
+  </div>
+</div>

@@ -10,4 +10,4 @@ class Token(models.Model):
     image = models.CharField(max_length=500, blank=True, null=True, default='')
 
     def __str__(self):
-        return f"{self.name} - {self.symbol}"
+        return f"{self.symbol}"

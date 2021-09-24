@@ -14,7 +14,6 @@ from .models import hexadecimal_address_exists
 
 from tokens.models import Token
 
-
 class WalletForm(ModelForm):
     class Meta:
         model = Wallet
@@ -22,10 +21,8 @@ class WalletForm(ModelForm):
         labels = {'address': 'Dirección', 'alias': 'Alías', 'tokens': 'Tokens'}
 
     tokens = ModelMultipleChoiceField(
-        queryset=Token.objects.filter(active=True),
-        widget=CheckboxSelectMultiple(
-            attrs={'class':'ml-1'}
-        )
+        queryset=None,
+        widget=CheckboxSelectMultiple
     )
 
     def __init__(self, *args, **kwargs):
@@ -43,7 +40,13 @@ class WalletForm(ModelForm):
             'placeholder': 'Alías'
         })
 
-
+        self.fields['tokens'].queryset = Token.objects.filter(active=True)
+        self.fields['tokens'].widget.attrs.update(
+            {
+                'class':'ml-1'
+            }
+        )
+    
     def clean_address(self):
         address = self.cleaned_data['address']
         
