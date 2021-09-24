@@ -29,13 +29,15 @@ class WalletForm(ModelForm):
         super().__init__(*args, **kwargs)
 
         self.fields['address'].widget.attrs.update({
-            'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
+            'class': 'block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
             'id': 'address',
             'placeholder': 'Address'
         })
 
+        self.fields['address'].disabled = True
+
         self.fields['alias'].widget.attrs.update({
-            'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
+            'class': 'block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
             'id': 'alias',
             'placeholder': 'Alías'
         })
@@ -61,3 +63,5 @@ class WalletForm(ModelForm):
 
     def is_hexadecimal(self, data):
         return re.fullmatch(r"^(0x|0X)?[a-fA-F0-9]+$", data or "") # BSC validate addresses
+
+
