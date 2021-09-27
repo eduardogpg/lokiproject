@@ -66,7 +66,6 @@ class WalletCreateForm(WalletForm):
         )
     
 
-
 class WalletUpdateForm(WalletForm):
     class Meta:
         model = Wallet
