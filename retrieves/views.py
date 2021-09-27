@@ -36,11 +36,32 @@ def dashboard(request, pk):
 
 @login_required(login_url='/login')
 def wallets(request):
-
     return JsonResponse(
         {
             'wallets': list(
                 request.user.wallet_set.all().values('id', 'hexadecimal', 'alias')
             )
+        }
+    )
+
+
+@login_required(login_url='/login')
+def balance(request, pk):
+    wallet = get_object_or_404(Wallet, pk=pk)
+
+    tokens = wallet.wallettokens_set.all().values(
+        'token__symbol', 'token__abi'
+    )
+
+    tokens = [
+        {
+            'symbol' : token['token__symbol'],
+            'in_wallet': get_balance()
+        }
+    ]
+
+    return JsonResponse(
+        {
+            'tokens': list(tokens),
         }
     )

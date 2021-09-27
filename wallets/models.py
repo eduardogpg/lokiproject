@@ -13,7 +13,7 @@ class Wallet(models.Model):
     alias = models.CharField(max_length=100, null=False, blank=False, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     tokens = models.ManyToManyField(Token, through='wallet_tokens.WalletTokens')
-
+    default = models.BooleanField(default=False)
     
     def __str__(self):
         return self.hexadecimal
@@ -37,4 +37,8 @@ def validate_if_address_exists(sender, instance, *agrs, **kwargs):
         raise ValidationError('La dirección ya se encuentra registrada!')
 
 
+def set_and_unset_default(sender, instance, *args, **kwargs):
+    pass
+
+pre_save.connect(set_and_unset_default, sender=Wallet)
 pre_save.connect(set_wallet_format, sender=Wallet)
