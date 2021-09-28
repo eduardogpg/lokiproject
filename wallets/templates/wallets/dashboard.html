@@ -133,6 +133,8 @@
             axios.get('/retrieves/wallets').then(response => {
                 this.wallets = response.data.wallets;
                 this.currentWalletId = this.wallets[0].id;
+
+                this.loadDashboard(this.currentWalletId);
             });
         },
 
