@@ -26,6 +26,7 @@
                 <th class="border-t px-2 py-2" scope="col">Address</th>
                 <th class="border-t px-2 py-2" scope="col">Name</th>
                 <th class="border-t px-2 py-2" scope="col">Symbol</th>
+                <th class="border-t px-2 py-2" scope="col">Supply</th>
                 <th class="border-t px-2 py-2" scope="col">Active</th>
                 <th class="border-t px-2 py-2" scope="col"></th>
             </thead>
@@ -38,13 +39,14 @@
                         <td class="text-center border-t px-2 py-2">{{ token.address }} </td>
                         <td class="text-center border-t px-2 py-2">{{ token.name }}</td>
                         <td class="text-center border-t px-2 py-2">{{ token.symbol }}</td>
+                        <td class="text-center border-t px-2 py-2">{{ token.total_supply }}</td>
                         <td class="text-center border-t px-2 py-2">
                             <strong class="{% if token.active %} text-green-600 {% else %} text-red-600 {% endif %}"> {{ token.active }} </strong>
                         </td>
                         <td class="text-center border-t px-2 py-2">
                             <div >
                                 <a class="inline-block py-3 px-6 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" href="{% url 'tokens:update' token.id  %}">Editar</a>
-                                <a class="inline-block py-3 px-6 leading-none text-white bg-green-600 hover:bg-green-700 font-semibold rounded shadow" href="{% url 'tokens:update' token.id  %}">Ver</a>
+                                <a class="inline-block py-3 px-6 leading-none text-white bg-green-600 hover:bg-green-700 font-semibold rounded shadow" href="{% url 'tokens:detail' token.id  %}">Ver</a>
                             </div>
                         </td>
                     </tr>
