@@ -23,7 +23,7 @@ class Token(models.Model):
         if self.abi:
             return self.abi
 
-        response = abi(self.address)
+        response = abi(self)
         if response:
             self.abi = str(response)
             self.save()
