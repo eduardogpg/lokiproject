@@ -38,7 +38,7 @@
             </section>
 
             <section>
-                <p>{{ token }}</p>
+                <!-- BNB Total -->
             </section>
 
             <hr>
@@ -102,7 +102,7 @@
                                 </td>
                                 <td class="text-center border-t px-2 py-2">{{ transaction.created_at }}</td>
                                 <td class="text-center border-t px-2 py-2">
-                                    <a class="text-indigo-600 hover:underline" href="#">Ver más</a>
+                                    <a class="text-indigo-600 hover:underline" v-bind:href="'/transactions/detail/' + transaction.id ">Ver más</a>
                                 </td>
                             </tr>
                         </tbody>

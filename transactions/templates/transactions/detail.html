@@ -3,7 +3,6 @@
 
 {% block content %}
 <div class="container mx-auto px-4"> 
-    
   {% include 'base/snippets/navbar.html' %}
 
   <section class="mt-2">
@@ -11,63 +10,83 @@
       <div class="flex justify-center md:justify-end -mt-16">
         <img class="object-cover " src="{% static 'image/coins/'%}{{token.image}}.webp">
       </div>
-
       <div>
-        <h2 class="text-gray-800 text-3xl font-semibold">{{ object.symbol }}</h2>
+        <h2 class="text-gray-800 text-3xl font-semibold">Resumen de la transacción</h2>
       </div>
-
       <div class="rows mt-2">
         <div class="row align-items-center">
 
           <div class="flex flex-wrap -mx-4 mt-4">
             <div class="w-full md:w-1/4 px-4 mb-2">
-              Name
+              Hash de la transacción
             </div>
             <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
-               {{ object.name }}
+               {{ object.hash }}
             </div>
           </div>
           <hr class="hr-space">
           
           <div class="flex flex-wrap -mx-4 mt-4">
             <div class="w-full md:w-1/4 px-4 mb-2">
-              Address
+              Block ID
             </div>
             <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
-               {{ object.address }}
+               {{ object.block }}
             </div>
           </div>
           <hr class="hr-space">
 
           <div class="flex flex-wrap -mx-4 mt-4">
             <div class="w-full md:w-1/4 px-4 mb-2">
-              Total Supply
+              Wallet
             </div>
             <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
-               {{ object.total_supply }}
+               {{ object.wallet.address }}
             </div>
           </div>
           <hr class="hr-space">
 
           <div class="flex flex-wrap -mx-4 mt-4">
             <div class="w-full md:w-1/4 px-4 mb-2">
-              ABI
+              Sender
             </div>
             <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
-               {{ object.abi|truncatechars:50 }}
+               {{ object.sender }}
             </div>
           </div>
           <hr class="hr-space">
 
-      </div>
+          <div class="flex flex-wrap -mx-4 mt-4">
+            <div class="w-full md:w-1/4 px-4 mb-2">
+              Amount
+            </div>
+            <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
+               {{ object.amount }}
+            </div>
+          </div>
+          <hr class="hr-space">
 
-      <div class="flex justify-end mt-4">
-        
-        <a class="text-right inline-block py-3 px-6 ml-2 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" href="{% url 'tokens:update' object.pk %}">Editar</a>
-        <a class="text-right inline-block py-3 px-6 ml-2 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow" href="{% url 'tokens:abi' object.pk %}">Set ABY & >Supply</a>
+          <div class="flex flex-wrap -mx-4 mt-4">
+            <div class="w-full md:w-1/4 px-4 mb-2">
+              Token
+            </div>
+            <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
+               {{ token.symbol }}
+            </div>
+          </div>
+          <hr class="hr-space">
+
+          <div class="flex flex-wrap -mx-4 mt-4">
+            <div class="w-full md:w-1/4 px-4 mb-2">
+              Nonce
+            </div>
+            <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
+               {{ object.nonce }}
+            </div>
+          </div>
+
       </div>
     </div>
-
   </section>
 
 {% endblock %}
