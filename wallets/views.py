@@ -22,6 +22,7 @@ from .models import Wallet
 from .forms import WalletCreateForm
 from .forms import WalletUpdateForm
 
+from tokens.models import Token
 from transactions.models import Transaction
 from wallet_tokens.models import WalletTokens
 
@@ -29,13 +30,22 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 
+from Web3API.wallets import total_balance_of
 
 @login_required(login_url='/login')
 def dashboard(request):
     if Wallet.objects.filter(user=request.user).exists():
+        # TODO
+        # Obtener los tokens de la billetera
+        # Listar los tokens en cartera
+        # Hacer la conversión de los tokens por el precio actual en el mercado!
+
+        wallet = Wallet.objects.filter(user=request.user).first()
+        token = Token.objects.filter(symbol='ZEP').first()
 
         return render(request, 'wallets/dashboard.html', {
-            'wallet': Wallet.objects.filter(user=request.user).first(),
+            'token':  total_balance_of(token, wallet),
+            'wallet': wallet,
             'wallets': Wallet.objects.filter(user=request.user).values('hexadecimal', 'alias', 'id')
         })
 
