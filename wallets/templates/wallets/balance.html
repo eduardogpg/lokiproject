@@ -1,0 +1,124 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+
+<div id="app">  
+    <div class="container mx-auto px-4"> 
+        {% include 'base/snippets/navbar.html' %}
+        
+            <section class="py-12 px-4 text-center">
+                {% verbatim %}
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 text-left" for="">Mis billeteras</label>
+                        <div class="relative">
+                        <select @change="onChange($event)" class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none" name="field-name">
+                            <option v-for="wallet in wallets" v-bind:value="wallet.id">
+                                {{ wallet.alias }} - {{ wallet.hexadecimal }}
+                            </option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                            </svg>
+                        </div>
+                        </div>
+                    </div>
+                {% endverbatim %}
+
+                <div class="flex texte-center flex-wrap -mx-4 -mb-4 md:mb-0">
+                    <div class="w-full md:w-1/3 px-4 mb-4 md:mb-0"></div>
+                    <div class="w-full md:w-1/3 px-4 mb-4 md:mb-0">
+                        {% verbatim %}
+                            <a class="inline-block py-3 px-6 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" :href="'/wallets/update/' + currentWalletId" id="update-link">Editar billetera</a>
+                        {% endverbatim %}
+                        <a class="inline-block py-3 px-6 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow" href="{% url 'wallets:create' %}">Nueva billetera</a>
+                    </div>
+                    <div class="w-full md:w-1/3 px-4 mb-4 md:mb-0"></div>
+                </div>
+            </section>
+
+            <section>
+                <strong>{{ total }}</strong>
+            </section>
+
+            <hr>
+            <br>
+            
+            <section class="px-4">
+                <a class="inline-block py-3 px-6 leading-none text-white bg-purple-600 hover:bg-purple-700 font-semibold rounded shadow" href="{% url 'wallets:dashboard' %}">Transacciones</a>
+                <a class="inline-block py-3 px-6 leading-none text-white bg-pink-600 hover:bg-pink-700 font-semibold rounded shadow" href="{% url 'wallets:balance' %}">Balances</a>
+            </section>
+
+            {% verbatim %}
+                <section class="px-4">
+
+                    <table class="w-6/12 mt-4">
+                        <thead>
+                        <tr>
+                            <th class="border-t px-2 py-2" scope="col"></th>
+                            <th class="border-t px-2 py-2" scope="col">En cartera</th>
+                            <th class="border-t px-2 py-2" scope="col">Precio actual</th>
+                            <th class="border-t px-2 py-2" scope="col">Total USD</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="token in tokens">
+                                <td class="text-center border-t px-2 py-2 mr-4">
+                                    <img class="inline-block"  v-bind:src="'/static/image/coins/' + token.image + '.webp'" width="30" height="30"/> 
+                                    <strong class="inline-block ml-4">
+                                        {{ token.symbol }}
+                                    </strong>
+                                </td>
+                                <td class="text-center border-t px-2 py-2">{{ token.balance }} </td>
+                                <td class="text-center border-t px-2 py-2">{{ token.price }} </td>
+                                <td class="text-center border-t px-2 py-2">{{ token.usd }} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            {% endverbatim %}
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    
+    var app = new Vue({
+        el: '#app',
+        data: {
+            currentWalletId: 0,
+            wallets: [],
+            tokens: [],
+        },
+
+        created() {
+            axios.get('/retrieves/wallets').then(response => {
+                this.wallets = response.data.wallets;
+                this.currentWalletId = this.wallets[0].id;
+
+                this.loadBalance(this.currentWalletId);
+            });
+        },
+
+        methods: {
+            onChange(event) {
+                this.reset();
+                this.loadBalance(event.target.value)
+            },
+
+            loadBalance(walletId) {
+                axios.get('/retrieves/balance/' + walletId).then(response => {
+                    this.tokens = response.data.tokens;
+                });
+            },
+
+            reset() {
+                this.tokens = [];
+            }
+        }
+    })
+</script>
+{% endblock %}

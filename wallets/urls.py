@@ -6,6 +6,8 @@ app_name = 'wallets'
 
 urlpatterns = [
     path('admin', views.admin, name='admin'),
+    
+    path('balance', views.balance, name='balance'),
     path('dashboard', views.dashboard, name='dashboard'),
     
     path('create', views.CreateWalletView.as_view(), name='create'),

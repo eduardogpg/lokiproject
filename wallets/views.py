@@ -48,6 +48,12 @@ def dashboard(request):
 
 
 @login_required(login_url='/login')
+def balance(request):
+    return render(request, 'wallets/balance.html', {
+    })
+
+
+@login_required(login_url='/login')
 def admin(request):
     
     if Wallet.objects.filter(user_id=request.user.id).exists():

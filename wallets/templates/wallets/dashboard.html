@@ -45,10 +45,15 @@
 
             <hr>
             <br>
+            
+            <section class="px-4">
+                <a class="inline-block py-3 px-6 leading-none text-white bg-purple-600 hover:bg-purple-700 font-semibold rounded shadow" href="{% url 'wallets:dashboard' %}">Transacciones</a>
+                <a class="inline-block py-3 px-6 leading-none text-white bg-pink-600 hover:bg-pink-700 font-semibold rounded shadow" href="{% url 'wallets:balance' %}">Balances</a>
+            </section>
+
             {% verbatim %}
                 <section class="px-4">
-                    <h2 class="text-3xl mb-2 font-semibold font-heading font-semibold">Transacciones.</h2>
-                    <p class="mb-4">Depósitos de los últimos 30 días.</p>
+                    <p class="mb-4 mt-2">Depósitos de los últimos 30 días.</p>
                     <div class="flex flex-wrap -mx-4 mb-8">
                         <div class="w-full lg:w-1/3 px-4 mb-6 lg:mb-0">
                         <div class="h-full">

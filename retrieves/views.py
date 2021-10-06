@@ -49,15 +49,15 @@ def wallets(request):
 def balance(request, pk):
     wallet = get_object_or_404(Wallet, pk=pk)
 
-    tokens = wallet.wallettokens_set.all().values(
-        'token__symbol', 'token__abi'
-    )
-
     tokens = [
         {
             'symbol' : token['token__symbol'],
-            'in_wallet': get_balance(),
+            'price': 20.00,
+            'image': token['token__image'],
+            'balance': 100,
+            'usd': 0
         }
+        for token in wallet.wallettokens_set.all().values('token__symbol', 'token__abi', 'token__image')
     ]
 
     return JsonResponse(
