@@ -36,13 +36,11 @@ from Web3API.wallets import total_balance_of
 def dashboard(request):
     if Wallet.objects.filter(user=request.user).exists():
 
-        wallet = Wallet.objects.filter(user=request.user).last()
-        token = Token.objects.filter(symbol='BNB').first()
-
+        wallet = Wallet.objects.filter(user=request.user).filter(default=True).first()
+        
         return render(request, 'wallets/dashboard.html', {
-            'total':  total_balance_of(token, wallet),
             'wallet': wallet,
-            'wallets': Wallet.objects.filter(user=request.user).values('hexadecimal', 'alias', 'id')
+
         })
 
     else:

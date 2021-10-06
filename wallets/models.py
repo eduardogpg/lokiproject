@@ -5,6 +5,7 @@ from tokens.models import Token
 from django.core.exceptions import ValidationError
 
 from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 
 class Wallet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -32,13 +33,22 @@ def set_wallet_format(sender, instance, *args, **kwargs):
     instance.hexadecimal = hexadecimal_format(instance.address)
 
 
-def validate_if_address_exists(sender, instance, *agrs, **kwargs):
+def validate_if_address_exists(sender, instance, *args, **kwargs):
     if address_exists(instance.address):
         raise ValidationError('La dirección ya se encuentra registrada!')
 
 
-def set_and_unset_default(sender, instance, *args, **kwargs):
-    pass
 
-pre_save.connect(set_and_unset_default, sender=Wallet)
+
+
+def update_default(sender, instance, created, *args, **kwargs):
+    if instance.default:
+        
+        for wallet in Wallet.objects.filter(user=instance.user).exclude(pk=instance.pk):
+            wallet.default = False
+            wallet.save()
+
+
 pre_save.connect(set_wallet_format, sender=Wallet)
+
+post_save.connect(update_default, sender=Wallet)

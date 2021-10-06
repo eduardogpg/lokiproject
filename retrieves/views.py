@@ -39,7 +39,7 @@ def wallets(request):
     return JsonResponse(
         {
             'wallets': list(
-                request.user.wallet_set.all().values('id', 'hexadecimal', 'alias')
+                Wallet.objects.filter(user=request.user).values('hexadecimal', 'alias', 'id', 'default').order_by('-default')
             )
         }
     )
