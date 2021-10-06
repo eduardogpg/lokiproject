@@ -35,16 +35,12 @@ from Web3API.wallets import total_balance_of
 @login_required(login_url='/login')
 def dashboard(request):
     if Wallet.objects.filter(user=request.user).exists():
-        # TODO
-        # Obtener los tokens de la billetera
-        # Listar los tokens en cartera
-        # Hacer la conversión de los tokens por el precio actual en el mercado!
 
-        wallet = Wallet.objects.filter(user=request.user).first()
-        token = Token.objects.filter(symbol='ZEP').first()
+        wallet = Wallet.objects.filter(user=request.user).last()
+        token = Token.objects.filter(symbol='BNB').first()
 
         return render(request, 'wallets/dashboard.html', {
-            'token':  total_balance_of(token, wallet),
+            'total':  total_balance_of(token, wallet),
             'wallet': wallet,
             'wallets': Wallet.objects.filter(user=request.user).values('hexadecimal', 'alias', 'id')
         })
@@ -75,8 +71,14 @@ class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return context
+        
+        context['form'] = WalletCreateForm(
+            initial={
+                'default': not Wallet.objects.filter(user=self.request.user).exists()
+            }
+        )
 
+        return context
 
     def post(self, request, *args, **kwargs):
         return super(CreateWalletView, self).post(request, *args, **kwargs)

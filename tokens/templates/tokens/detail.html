@@ -34,7 +34,7 @@
               Address
             </div>
             <div class="w-full md:w-3/4 px-4 mb-4 md:mb-0">
-               {{ object.address }}
+               {{ object.address }} 
             </div>
           </div>
           <hr class="hr-space">
@@ -57,12 +57,9 @@
                {{ object.abi|truncatechars:50 }}
             </div>
           </div>
-          <hr class="hr-space">
-
       </div>
 
       <div class="flex justify-end mt-4">
-        
         <a class="text-right inline-block py-3 px-6 ml-2 leading-none text-white bg-yellow-600 hover:bg-yellow-700 font-semibold rounded shadow" href="{% url 'tokens:update' object.pk %}">Editar</a>
         <a class="text-right inline-block py-3 px-6 ml-2 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow" href="{% url 'tokens:abi' object.pk %}">Set ABY & >Supply</a>
       </div>

@@ -5,8 +5,8 @@ from .models import Token
 class TokenForm(ModelForm):
     class Meta:
         model = Token
-        fields = ['address', 'name', 'symbol', 'image', 'total', 'active']
-        labels = {'address': 'Dirección', 'name': 'Nombre', 'symbol': 'Símbolo', 'image': 'Imagen', 'total': 'Total', 'active': 'Activo'}
+        fields = ['address', 'name', 'symbol', 'image', 'active']
+        labels = {'address': 'Dirección', 'name': 'Nombre', 'symbol': 'Símbolo', 'image': 'Imagen', 'active': 'Activo'}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,12 +29,6 @@ class TokenForm(ModelForm):
             'placeholder': 'Símbolo'
         })
 
-
-        self.fields['total'].widget.attrs.update({
-            'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',
-            'id': 'total',
-            'placeholder': 'Total'
-        })
 
         self.fields['image'].widget.attrs.update({
             'class': 'appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none',

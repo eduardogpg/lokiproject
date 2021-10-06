@@ -35,13 +35,15 @@ class WalletForm(ModelForm):
 class WalletCreateForm(WalletForm):
     class Meta:
         model = Wallet
-        fields = ['address', 'alias', 'tokens']
-        labels = {'address': 'Dirección', 'alias': 'Alías', 'tokens': 'Tokens'}
+        fields = ['address', 'alias', 'tokens', 'default']
+        labels = {'address': 'Dirección', 'alias': 'Alías', 'tokens': 'Tokens', 'default': 'default'}
+
 
     tokens = ModelMultipleChoiceField(
         queryset=None,
         widget=CheckboxSelectMultiple
     )
+
 
     def __init__(self, disabled=False, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -64,13 +66,18 @@ class WalletCreateForm(WalletForm):
         self.fields['tokens'].widget.attrs.update(
             { 'class':'ml-1' }
         )
-    
+
+        self.fields['default'].widget.attrs.update(
+            { 'class':'mt-1' }
+        )
+        self.fields['default'].label = "Billetera principal"
+
 
 class WalletUpdateForm(WalletForm):
     class Meta:
         model = Wallet
-        fields = ['alias', 'tokens']
-        labels = {'alias': 'Alías', 'tokens': 'Tokens'}
+        fields = ['alias', 'tokens', 'default' ]
+        labels = {'alias': 'Alías', 'tokens': 'Tokens', 'default': 'Billetera principal'}
 
     tokens = ModelMultipleChoiceField(
         queryset=None,
@@ -90,4 +97,7 @@ class WalletUpdateForm(WalletForm):
         self.fields['tokens'].widget.attrs.update(
             { 'class':'ml-1' }
         )
+
+        self.fields['default'].label = "Billetera principal"
+
     

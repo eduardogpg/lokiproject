@@ -14,7 +14,7 @@ class Wallet(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     tokens = models.ManyToManyField(Token, through='wallet_tokens.WalletTokens')
     default = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return self.hexadecimal
 

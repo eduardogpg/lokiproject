@@ -13,8 +13,8 @@ class Token(models.Model):
     active = models.BooleanField(default=True, null=False, blank=False)
     abi = models.TextField(null=True, blank=True)
     image = models.CharField(max_length=500, blank=True, null=True, default='')
-    total_supply = models.BigIntegerField(null=True, blank=True)
-    total = models.BigIntegerField(null=True, blank=True)
+    supply = models.BigIntegerField(null=True, blank=True)
+
 
     def __str__(self):
         return f"{self.symbol}"
@@ -32,10 +32,10 @@ class Token(models.Model):
         return self.abi
 
     def set_total_supply(self):
-        if self.total_supply:
-            return self.total_supply
+        if self.supply:
+            return self.supply
         
-        self.total_supply = total_supply(self)
+        self.supply = total_supply(self)
         self.save()
 
 
