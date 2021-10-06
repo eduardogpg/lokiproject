@@ -28,18 +28,20 @@ def hexadecimal_address_exists(hexadecimal):
     hexadecimal = hexadecimal.lower()
     return Wallet.objects.filter(hexadecimal=hexadecimal).exclude(hexadecimal=hexadecimal).exists()
 
+"""
+def validate_if_address_exists(sender, instance, *args, **kwargs):
+    if address_exists(instance.address):
+        raise ValidationError('La dirección ya se encuentra registrada!')
+"""
 
 def set_wallet_format(sender, instance, *args, **kwargs):
     instance.hexadecimal = hexadecimal_format(instance.address)
 
 
-def validate_if_address_exists(sender, instance, *args, **kwargs):
-    if address_exists(instance.address):
-        raise ValidationError('La dirección ya se encuentra registrada!')
-
-
-
-
+def check_default(sender, instance, created, *args, **kwargs):
+    if instance.default == False and Wallet.objects.filter(user=instance.user).filter(default=True).exists() == False:
+        instance.default = True
+        instance.save()
 
 def update_default(sender, instance, created, *args, **kwargs):
     if instance.default:
@@ -51,4 +53,5 @@ def update_default(sender, instance, created, *args, **kwargs):
 
 pre_save.connect(set_wallet_format, sender=Wallet)
 
+post_save.connect(check_default, sender=Wallet)
 post_save.connect(update_default, sender=Wallet)

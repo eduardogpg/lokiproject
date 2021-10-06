@@ -28,6 +28,7 @@ class WalletForm(ModelForm):
         return address
 
 
+
     def is_hexadecimal(self, data):
         return re.fullmatch(r"^(0x|0X)?[a-fA-F0-9]+$", data or "") # BSC validate addresses
 
