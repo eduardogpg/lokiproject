@@ -75,7 +75,7 @@ class CreateWalletView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
                 'default': not Wallet.objects.filter(user=self.request.user).exists()
             }
         )
-
+        
         return context
 
     def post(self, request, *args, **kwargs):
