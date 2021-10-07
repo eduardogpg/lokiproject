@@ -20,6 +20,17 @@ from .forms import TokenForm
 
 from users.decorators import admin_validator
 
+from django.urls import reverse_lazy
+
+class TokenDeleteView(LoginRequiredMixin, DeleteView):
+    model = Token
+    success_url = reverse_lazy('tokens:list')
+
+    @method_decorator(admin_validator)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+
 class ListTokenView(LoginRequiredMixin, ListView):
     model = Token
     login_url = '/login/'
