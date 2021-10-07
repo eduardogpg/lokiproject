@@ -51,7 +51,7 @@ def wallets(request):
 def generate_token(wallet, token, prices):
     token_dict = dict(symbol=token.symbol, image=token.image)
 
-    balance = total_balance_of(token, wallet) / token.total
+    balance = total_balance_of(wallet, token) / token.total
     balance = round(balance, 4)
     price = prices[token.coingecko_id]['usd']
 
@@ -66,7 +66,7 @@ def generate_token(wallet, token, prices):
 def balance(request, pk):
     
     wallet = get_object_or_404(Wallet, pk=pk)
-    tokens = Token.objects.filter(wallettokens__wallet_id=wallet.id)
+    tokens = Token.objects.filter(wallettokens__wallet_id=wallet.id).filter(active=True)
 
     coingecko_ids = ','.join([ token.coingecko_id for token in tokens ])
     prices = get_prices(coingecko_ids)
