@@ -68,7 +68,7 @@ def balance(request, pk):
     wallet = get_object_or_404(Wallet, pk=pk)
     tokens = Token.objects.filter(wallettokens__wallet_id=wallet.id)
 
-    coingecko_ids = [ token.coingecko_id for token in tokens ]
+    coingecko_ids = ','.join([ token.coingecko_id for token in tokens ])
     prices = get_prices(coingecko_ids)
     
     return JsonResponse(
