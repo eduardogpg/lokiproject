@@ -70,7 +70,8 @@ def balance(request, pk):
 
         current_token['price'] = prices[token['token__coingecko_id']]['usd']
 
-        current_token['total'] = current_token['balance'] * current_token['price']
+        total = current_token['balance'] * current_token['price']
+        current_token['total'] = float("{:.4f}".format(round(total, 4)))
 
         tokens.append(current_token)
 
