@@ -14,6 +14,8 @@ from django.contrib.auth.decorators import login_required
 from wallets.models import Wallet
 from transactions.models import Transaction
 
+from Web3API.tokens import get_prices
+from Web3API.wallets import total_balance_of
 
 @login_required(login_url='/login')
 def dashboard(request, pk):
@@ -49,19 +51,31 @@ def wallets(request):
 def balance(request, pk):
     wallet = get_object_or_404(Wallet, pk=pk)
 
-    tokens = [
-        {
-            'symbol' : token['token__symbol'],
-            'price': 20.00,
-            'image': token['token__image'],
-            'balance': 100,
-            'usd': 0
-        }
-        for token in wallet.wallettokens_set.all().values('token__symbol', 'token__abi', 'token__image')
-    ]
+    tokens = list()
+    ids = [ wallet['token__coingecko_id'] for wallet in wallet.wallettokens_set.all().values('token__coingecko_id')]
+
+    prices = get_prices(ids)
+    
+
+    for token in wallet.wallettokens_set.all().values('token__address', 'token__abi', 'token__symbol', 'token__image', 'token__total', 'token__coingecko_id'):
+        current_token = dict()
+
+        current_token['symbol'] = token['token__symbol']
+        current_token['image'] = token['token__image']
+
+        balance = total_balance_of(token['token__address'], token['token__abi'], wallet.address)
+        balance = balance / token['token__total']
+
+        current_token['balance'] = float("{:.4f}".format(round(balance, 4)))
+
+        current_token['price'] = prices[token['token__coingecko_id']]['usd']
+
+        current_token['total'] = current_token['balance'] * current_token['price']
+
+        tokens.append(current_token)
 
     return JsonResponse(
         {
-            'tokens': list(tokens),
+            'tokens': tokens
         }
     )

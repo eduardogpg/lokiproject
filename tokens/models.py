@@ -14,7 +14,8 @@ class Token(models.Model):
     abi = models.TextField(null=True, blank=True)
     image = models.CharField(max_length=500, blank=True, null=True, default='')
     supply = models.BigIntegerField(null=True, blank=True)
-
+    total = models.BigIntegerField(null=False, blank=False)
+    coingecko_id = models.CharField(max_length=100, null=False, blank=False)
 
     def __str__(self):
         return f"{self.symbol}"
