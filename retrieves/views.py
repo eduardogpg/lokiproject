@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
+from tokens.models import Token
 from wallets.models import Wallet
 from transactions.models import Transaction
 
@@ -47,36 +48,31 @@ def wallets(request):
     )
 
 
+def generate_token(wallet, token, prices):
+    token_dict = dict(symbol=token.symbol, image=token.image)
+
+    balance = total_balance_of(token, wallet) / token.total
+    balance = round(balance, 4)
+    price = prices[token.coingecko_id]['usd']
+
+    token_dict['balance'] = balance
+    token_dict['price'] = price
+    token_dict['total'] = round(balance * price, 4)
+
+    return token_dict
+
+
 @login_required(login_url='/login')
 def balance(request, pk):
-    wallet = get_object_or_404(Wallet, pk=pk)
-
-    tokens = list()
-    ids = [ wallet['token__coingecko_id'] for wallet in wallet.wallettokens_set.all().values('token__coingecko_id')]
-
-    prices = get_prices(ids)
     
+    wallet = get_object_or_404(Wallet, pk=pk)
+    tokens = Token.objects.filter(wallettokens__wallet_id=wallet.id)
 
-    for token in wallet.wallettokens_set.all().values('token__address', 'token__abi', 'token__symbol', 'token__image', 'token__total', 'token__coingecko_id'):
-        current_token = dict()
-
-        current_token['symbol'] = token['token__symbol']
-        current_token['image'] = token['token__image']
-
-        balance = total_balance_of(token['token__address'], token['token__abi'], wallet.address)
-        balance = balance / token['token__total']
-
-        current_token['balance'] = float("{:.4f}".format(round(balance, 4)))
-
-        current_token['price'] = prices[token['token__coingecko_id']]['usd']
-
-        total = current_token['balance'] * current_token['price']
-        current_token['total'] = float("{:.4f}".format(round(total, 4)))
-
-        tokens.append(current_token)
-
+    coingecko_ids = [ token.coingecko_id for token in tokens ]
+    prices = get_prices(coingecko_ids)
+    
     return JsonResponse(
         {
-            'tokens': tokens
+            'tokens': [ generate_token(wallet, token, prices) for token in tokens ]
         }
     )
